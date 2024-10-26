@@ -102,7 +102,7 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -117,8 +117,6 @@ vim.opt.showmode = false
 vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
-
--- Enable break indent
 vim.opt.breakindent = true
 
 -- Save undo history
@@ -189,11 +187,9 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
+vim.keymap.set({ 'v' }, '<C-c>', '"+y')
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -854,7 +850,54 @@ require('lazy').setup({
       }
     end,
   },
+  {
+    'Vigemus/iron.nvim',
+    keys = {
+      { '<leader>i', vim.cmd.IronRepl, desc = '󱠤 Toggle REPL' },
+      { '<leader>I', vim.cmd.IronRestart, desc = '󱠤 Restart REPL' },
 
+      -- these keymaps need no right-hand-side, since that is defined by the
+      -- plugin config further below
+      { '+', mode = { 'n', 'x' }, desc = '󱠤 Send-to-REPL Operator' },
+      { '++', desc = '󱠤 Send Line to REPL' },
+    },
+
+    -- since irons's setup call is `require("iron.core").setup`, instead of
+    -- `require("iron").setup` like other plugins would do, we need to tell
+    -- lazy.nvim which module to via the `main` key
+    main = 'iron.core',
+
+    opts = {
+      keymaps = {
+        send_line = '++',
+        visual_send = '+',
+        send_motion = '+',
+        send_file = '+F',
+      },
+      config = {
+        -- This defines how the repl is opened. Here, we set the REPL window
+        -- to open in a horizontal split to the bottom, with a height of 10.
+        -- repl_open_cmd = require('iron.view').split.vertical '50%',
+        repl_open_cmd = 'horizontal bot 10 split',
+        --repl_open_cmd = 'vertical 60% split',
+        -- This defines which binary to use for the REPL. If `ipython` is
+        -- available, it will use `ipython`, otherwise it will use `python3`.
+        -- since the python repl does not play well with indents, it's
+        -- preferable to use `ipython` or `bypython` here.
+        -- (see: https://github.com/Vigemus/iron.nvim/issues/348)
+        filetype = 'python',
+        repl_definition = {
+          python = {
+            command = function()
+              local ipythonAvailable = vim.fn.executable 'ipython3' == 1
+              local binary = ipythonAvailable and 'ipython3' or 'python3'
+              return { binary }
+            end,
+          },
+        },
+      },
+    },
+  },
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
