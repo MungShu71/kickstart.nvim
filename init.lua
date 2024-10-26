@@ -877,9 +877,7 @@ require('lazy').setup({
       config = {
         -- This defines how the repl is opened. Here, we set the REPL window
         -- to open in a horizontal split to the bottom, with a height of 10.
-        -- repl_open_cmd = require('iron.view').split.vertical '50%',
         repl_open_cmd = 'horizontal bot 10 split',
-        --repl_open_cmd = 'vertical 60% split',
         -- This defines which binary to use for the REPL. If `ipython` is
         -- available, it will use `ipython`, otherwise it will use `python3`.
         -- since the python repl does not play well with indents, it's
