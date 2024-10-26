@@ -874,6 +874,7 @@ require('lazy').setup({
         send_motion = '+',
         send_file = '+F',
       },
+
       config = {
         -- This defines how the repl is opened. Here, we set the REPL window
         -- to open in a horizontal split to the bottom, with a height of 10.
