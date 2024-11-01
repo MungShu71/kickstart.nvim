@@ -154,8 +154,8 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
-
 -- [[ Basic Keymaps ]]
+vim.opt.autochdir = true
 --  See `:help vim.keymap.set()`
 
 -- Clear highlights on search when pressing <Esc> in normal mode
@@ -181,13 +181,22 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
---
+
+-- Map Alt + t to the function
+
+-- Call the function to execute it
+
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 vim.keymap.set({ 'v' }, '<C-c>', '"+y')
+vim.keymap.set('n', '<A-Up>', '<C-w>k', { silent = true, desc = 'Move to the window above' })
+vim.keymap.set('n', '<A-Down>', '<C-w>j', { silent = true, desc = 'Move to the window below' })
+vim.keymap.set('n', '<A-Left>', '<C-w>h', { silent = true, desc = 'Move to the window to the left' })
+vim.keymap.set('n', '<A-Right>', '<C-w>l', { silent = true, desc = 'Move to the window to the right' })
+vim.keymap.set('n', '<A-t>', ':vsp | terminal<CR>')
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 --  Try it with `yap` in normal mode
@@ -939,7 +948,7 @@ require('lazy').setup({
       -- end, { desc = 'Open harpoon window' })
       vim.keymap.set('n', '<leader>a', function()
         harpoon:list():add()
-      end)
+      end, { desc = '🦯 Harpoon' })
       vim.keymap.set('n', '<C-e>', function()
         harpoon.ui:toggle_quick_menu(harpoon:list())
       end)
