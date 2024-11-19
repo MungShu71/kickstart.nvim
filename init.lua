@@ -1,4 +1,4 @@
---[[
+--[[ini
 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
@@ -117,7 +117,17 @@ vim.opt.showmode = false
 vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
+-- Enable auto-indentation in Neovim
 vim.opt.breakindent = true
+vim.opt.smartindent = true -- Enable smart indentation
+vim.opt.tabstop = 4 -- Set tab width (number of spaces per tab)
+vim.opt.shiftwidth = 4 -- Set indentation width for auto-indentation
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.autoindent = true -- Automatically indent new lines
+vim.opt.smarttab = true -- Enable smart tabbing
+vim.opt.softtabstop = 4 -- Number of spaces that a tab character represents
+-- Optional: Enable filetype-specific indentation
+vim.cmd 'filetype plugin indent on' -- Enable filetype-specific indenting
 
 -- Save undo history
 vim.opt.undofile = true
@@ -197,6 +207,8 @@ vim.keymap.set('n', '<A-Down>', '<C-w>j', { silent = true, desc = 'Move to the w
 vim.keymap.set('n', '<A-Left>', '<C-w>h', { silent = true, desc = 'Move to the window to the left' })
 vim.keymap.set('n', '<A-Right>', '<C-w>l', { silent = true, desc = 'Move to the window to the right' })
 vim.keymap.set('n', '<A-t>', ':vsp | terminal<CR>')
+vim.keymap.set('n', '<C-a>', 'ggVG<CR>')
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 --  Try it with `yap` in normal mode
@@ -208,6 +220,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- Auto add semicolon at the end of the line for specific filetypes
 
 vim.api.nvim_create_autocmd('FileType', {
   desc = 'Set PEP defaults for python files',
@@ -916,6 +930,7 @@ require('lazy').setup({
       }
     end,
   },
+
   {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',
