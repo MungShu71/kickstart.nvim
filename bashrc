@@ -133,6 +133,11 @@ function col() {
    num=$1
    awk -v col_num="$num" '{print $col_num}'
 }
+
+function pdf() {
+    enscript -p trash.ps "$1" && ps2pdf "$1".ps "$1".pdf
+    rm trash.ps
+}
 # fnm
 FNM_PATH="/home/msshen/.local/share/fnm"
 if [ -d "$FNM_PATH" ]; then
